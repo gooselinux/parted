@@ -1,0 +1,13 @@
+--- parted-2.1.old/libparted/arch/linux.c	2010-08-16 12:27:06.000000000 -0400
++++ parted-2.1/libparted/arch/linux.c	2010-08-16 17:58:53.844279234 -0400
+@@ -1544,6 +1544,10 @@ retry:
+         /* With kernels < 2.6 flush cache for cache coherence issues */
+         if (!_have_kern26())
+                 _flush_cache (dev);
++#ifdef ENABLE_DEVICE_MAPPER
++        else if (dev->type == PED_DEVICE_DM)
++                _flush_cache (dev);
++#endif
+ 
+         return 1;
+ }
